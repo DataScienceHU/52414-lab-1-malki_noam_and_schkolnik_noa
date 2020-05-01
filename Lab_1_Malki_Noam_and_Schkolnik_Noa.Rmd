@@ -291,7 +291,7 @@ corona_eco <-merge(eco,corona)
 corona_eco <- mutate(corona_eco, 'cases /100,000 pop' = suppressWarnings(as.numeric(cases)/(as.numeric(pop_total)/100000)))
 corona_eco <- mutate(corona_eco, 'deaths /100,000 pop' = suppressWarnings(as.numeric(deaths)/(as.numeric(pop_total)/100000)))
 corona_eco <- mutate(corona_eco, 'recovered /100,000 pop' = suppressWarnings(as.numeric(recovered)/(as.numeric(pop_total)/100000)))
-# corona_eco
+
 corona_eco_with_sick <- mutate(corona_eco, Sick = `cases /100,000 pop` - `recovered /100,000 pop` - `deaths /100,000 pop`)
 
 end_march_normalized  <- corona_eco_with_sick[which(corona_eco_with_sick$Date == "2020-03-31"), ]
@@ -299,7 +299,7 @@ end_march_normalized  <- corona_eco_with_sick[which(corona_eco_with_sick$Date ==
 end_march_normalized <- end_march_normalized[order(as.numeric(end_march_normalized$`cases /100,000 pop`), decreasing = TRUE), ]
 
 march_top_10_normalized <- head(end_march_normalized[, !names(end_march_normalized) == "cases /1m _pop"], 10)
-view(march_top_10_normalized)
+
 barplot(t(cbind(march_top_10_normalized$Sick,
                 march_top_10_normalized$`recovered /100,000 pop`, march_top_10_normalized$`deaths /100,000 pop`)),
         names.arg = march_top_10_normalized$country, las = 2, col = c("gold", "brown2", "chartreuse3"),

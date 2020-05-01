@@ -1,6 +1,6 @@
 ---
 title: "52414 - lab 1"
-author: "52414"
+author: "Noam Malki and Noa schkolnik"
 date: "4/4/2020"
 output: html_document
 ---
@@ -64,10 +64,83 @@ d. Using the last day of March as a reference, create a single stacked bar-plot 
 
    
   
-**Solution:**  
+**Solution:**
 
-YOUR SOLUTION HERE.
-Use code blocks and markdown to clearly communicate your work. 
+**Section a:**
+
+```{r}
+Sys.setenv(TZ="UTC") # this is essential for the date parsing
+
+confirmed_cases <- read.csv(url("https://data.humdata.org/hxlproxy/data/download/time_series_covid19_confirmed_global_narrow.csv?dest=data_edit&filter01=merge&merge-url01=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2Fe%2F2PACX-1vTglKQRXpkKSErDiWG6ycqEth32MY0reMuVGhaslImLjfuLU0EUgyyu2e-3vKDArjqGX7dXEBV8FJ4f%2Fpub%3Fgid%3D1326629740%26single%3Dtrue%26output%3Dcsv&merge-keys01=%23country%2Bname&merge-tags01=%23country%2Bcode%2C%23region%2Bmain%2Bcode%2C%23region%2Bsub%2Bcode%2C%23region%2Bintermediate%2Bcode&filter02=merge&merge-url02=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2Fe%2F2PACX-1vTglKQRXpkKSErDiWG6ycqEth32MY0reMuVGhaslImLjfuLU0EUgyyu2e-3vKDArjqGX7dXEBV8FJ4f%2Fpub%3Fgid%3D398158223%26single%3Dtrue%26output%3Dcsv&merge-keys02=%23adm1%2Bname&merge-tags02=%23country%2Bcode%2C%23region%2Bmain%2Bcode%2C%23region%2Bsub%2Bcode%2C%23region%2Bintermediate%2Bcode&merge-replace02=on&merge-overwrite02=on&filter03=explode&explode-header-att03=date&explode-value-att03=value&filter04=rename&rename-oldtag04=%23affected%2Bdate&rename-newtag04=%23date&rename-header04=Date&filter05=rename&rename-oldtag05=%23affected%2Bvalue&rename-newtag05=%23affected%2Binfected%2Bvalue%2Bnum&rename-header05=Value&filter06=clean&clean-date-tags06=%23date&filter07=sort&sort-tags07=%23date&sort-reverse07=on&filter08=sort&sort-tags08=%23country%2Bname%2C%23adm1%2Bname&tagger-match-all=on&tagger-default-tag=%23affected%2Blabel&tagger-01-header=province%2Fstate&tagger-01-tag=%23adm1%2Bname&tagger-02-header=country%2Fregion&tagger-02-tag=%23country%2Bname&tagger-03-header=lat&tagger-03-tag=%23geo%2Blat&tagger-04-header=long&tagger-04-tag=%23geo%2Blon&header-row=1&url=https%3A%2F%2Fraw.githubusercontent.com%2FCSSEGISandData%2FCOVID-19%2Fmaster%2Fcsse_covid_19_data%2Fcsse_covid_19_time_series%2Ftime_series_covid19_confirmed_global.csv"), comment.char = "#")
+
+deaths <- read.csv(url("https://data.humdata.org/hxlproxy/data/download/time_series_covid19_deaths_global_narrow.csv?dest=data_edit&filter01=merge&merge-url01=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2Fe%2F2PACX-1vTglKQRXpkKSErDiWG6ycqEth32MY0reMuVGhaslImLjfuLU0EUgyyu2e-3vKDArjqGX7dXEBV8FJ4f%2Fpub%3Fgid%3D1326629740%26single%3Dtrue%26output%3Dcsv&merge-keys01=%23country%2Bname&merge-tags01=%23country%2Bcode%2C%23region%2Bmain%2Bcode%2C%23region%2Bsub%2Bcode%2C%23region%2Bintermediate%2Bcode&filter02=merge&merge-url02=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2Fe%2F2PACX-1vTglKQRXpkKSErDiWG6ycqEth32MY0reMuVGhaslImLjfuLU0EUgyyu2e-3vKDArjqGX7dXEBV8FJ4f%2Fpub%3Fgid%3D398158223%26single%3Dtrue%26output%3Dcsv&merge-keys02=%23adm1%2Bname&merge-tags02=%23country%2Bcode%2C%23region%2Bmain%2Bcode%2C%23region%2Bsub%2Bcode%2C%23region%2Bintermediate%2Bcode&merge-replace02=on&merge-overwrite02=on&filter03=explode&explode-header-att03=date&explode-value-att03=value&filter04=rename&rename-oldtag04=%23affected%2Bdate&rename-newtag04=%23date&rename-header04=Date&filter05=rename&rename-oldtag05=%23affected%2Bvalue&rename-newtag05=%23affected%2Binfected%2Bvalue%2Bnum&rename-header05=Value&filter06=clean&clean-date-tags06=%23date&filter07=sort&sort-tags07=%23date&sort-reverse07=on&filter08=sort&sort-tags08=%23country%2Bname%2C%23adm1%2Bname&tagger-match-all=on&tagger-default-tag=%23affected%2Blabel&tagger-01-header=province%2Fstate&tagger-01-tag=%23adm1%2Bname&tagger-02-header=country%2Fregion&tagger-02-tag=%23country%2Bname&tagger-03-header=lat&tagger-03-tag=%23geo%2Blat&tagger-04-header=long&tagger-04-tag=%23geo%2Blon&header-row=1&url=https%3A%2F%2Fraw.githubusercontent.com%2FCSSEGISandData%2FCOVID-19%2Fmaster%2Fcsse_covid_19_data%2Fcsse_covid_19_time_series%2Ftime_series_covid19_deaths_global.csv"), comment.char = "#")
+
+recovered_cases <- read.csv(url("https://data.humdata.org/hxlproxy/data/download/time_series_covid19_recovered_global_narrow.csv?dest=data_edit&filter01=merge&merge-url01=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2Fe%2F2PACX-1vTglKQRXpkKSErDiWG6ycqEth32MY0reMuVGhaslImLjfuLU0EUgyyu2e-3vKDArjqGX7dXEBV8FJ4f%2Fpub%3Fgid%3D1326629740%26single%3Dtrue%26output%3Dcsv&merge-keys01=%23country%2Bname&merge-tags01=%23country%2Bcode%2C%23region%2Bmain%2Bcode%2C%23region%2Bsub%2Bcode%2C%23region%2Bintermediate%2Bcode&filter02=merge&merge-url02=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2Fe%2F2PACX-1vTglKQRXpkKSErDiWG6ycqEth32MY0reMuVGhaslImLjfuLU0EUgyyu2e-3vKDArjqGX7dXEBV8FJ4f%2Fpub%3Fgid%3D398158223%26single%3Dtrue%26output%3Dcsv&merge-keys02=%23adm1%2Bname&merge-tags02=%23country%2Bcode%2C%23region%2Bmain%2Bcode%2C%23region%2Bsub%2Bcode%2C%23region%2Bintermediate%2Bcode&merge-replace02=on&merge-overwrite02=on&filter03=explode&explode-header-att03=date&explode-value-att03=value&filter04=rename&rename-oldtag04=%23affected%2Bdate&rename-newtag04=%23date&rename-header04=Date&filter05=rename&rename-oldtag05=%23affected%2Bvalue&rename-newtag05=%23affected%2Binfected%2Bvalue%2Bnum&rename-header05=Value&filter06=clean&clean-date-tags06=%23date&filter07=sort&sort-tags07=%23date&sort-reverse07=on&filter08=sort&sort-tags08=%23country%2Bname%2C%23adm1%2Bname&tagger-match-all=on&tagger-default-tag=%23affected%2Blabel&tagger-01-header=province%2Fstate&tagger-01-tag=%23adm1%2Bname&tagger-02-header=country%2Fregion&tagger-02-tag=%23country%2Bname&tagger-03-header=lat&tagger-03-tag=%23geo%2Blat&tagger-04-header=long&tagger-04-tag=%23geo%2Blon&header-row=1&url=https%3A%2F%2Fraw.githubusercontent.com%2FCSSEGISandData%2FCOVID-19%2Fmaster%2Fcsse_covid_19_data%2Fcsse_covid_19_time_series%2Ftime_series_covid19_recovered_global.csv"), comment.char = "#")
+
+
+confirmed_cases$Date <- as.Date(confirmed_cases$Date)
+deaths$Date <- as.Date(deaths$Date)
+recovered_cases$Date <- as.Date(recovered_cases$Date)
+
+# Checking for Date class
+class(confirmed_cases$Date)
+class(deaths$Date)
+class(recovered_cases$Date)
+```
+
+**Section b:**
+
+```{r}
+cases_data <- confirmed_cases[c("Country.Region", "Date", "Value")] 
+deaths_data <- deaths[c("Country.Region", "Date", "Value")]
+recovered_data <- recovered_cases[c("Country.Region", "Date", "Value")]
+
+cases.agg <- aggregate(Value ~ Country.Region + Date, data = cases_data, FUN = sum)
+recovered.agg <- aggregate(Value ~ Country.Region + Date, data = recovered_cases, FUN = sum)
+deaths.agg <- aggregate(Value ~ Country.Region + Date, data = deaths_data, FUN = sum)
+```
+
+**Section c:**
+
+```{r}
+cases.tidy_agg <- cases_data %>% group_by(Country.Region, Date) %>% summarise(Cases = sum(Value))
+cases.tidy_agg <- arrange(cases.tidy_agg, Date)
+
+recovered.tidy_agg <- recovered_cases %>% group_by(Country.Region, Date) %>% summarise(Recovered = sum(Value)) 
+recovered.tidy_agg <- arrange(recovered.tidy_agg, Date)
+
+deaths.tidy_agg <- deaths_data %>% group_by(Country.Region, Date) %>% summarise(Deaths = sum(Value))
+deaths.tidy_agg <- arrange(deaths.tidy_agg, Date)
+
+# Checking for similarity
+all(deaths.agg == deaths.tidy_agg)
+all(cases.agg == cases.tidy_agg)
+all(recovered.agg == recovered.tidy_agg)
+```
+
+**Section d:**
+
+```{r}
+all_data <- full_join(full_join(cases.tidy_agg, deaths.tidy_agg), recovered.tidy_agg)
+data_with_sick <- mutate(all_data, Sick = Cases - Deaths - Recovered)
+end_march <- data_with_sick[which(data_with_sick$Date == "2020-03-31"), ]
+end_march <- end_march[order(end_march$Cases, decreasing = TRUE), ]
+
+march_top_10 <- head(end_march[, !names(end_march) %in% c("Cases", "Date")], 10)
+march_top_10 <- march_top_10[, c("Country.Region", "Sick", "Deaths", "Recovered")]
+
+# preparing the data for barplot
+data_for_plot <- t(march_top_10)
+colnames(data_for_plot) <- march_top_10$Country.Region
+data_for_plot <- data_for_plot[-c(1), ]
+
+barplot(data_for_plot, las = 2, col = c("gold", "brown2", "chartreuse3"),
+        legend.text = c("Sick", "Deaths", "Recovered"), ylim = c(0, 200000), 
+        main = "Top 10 Corona-Infected Countries in 31.3.2020", cex.names = 0.6, cex.axis = 0.8)
+
+```
+
+**The biggest issue with the information presented in this plot is that proportion of the bars can't explain what happens in countries with smaller deaths count or number of recovered people (for example: Turkey, UK, Switzerland and so on).**
 
 <br/><br/>  
 
@@ -83,10 +156,44 @@ c. In one figure, plot Italy's new daily Corona cases AND deaths as a function o
 d. Plot the same graph as in (c), but this time plot the number of new cases on the logarithm scale. What can we learn? (5pts)  
 
   
-**Solution:**    
+**Solution:**
 
-YOUR SOLUTION HERE.
-Use code blocks and markdown to clearly communicate your work.
+**Section a:**
+```{r}
+cases.agg <- cases.agg %>% group_by(Country.Region) %>% mutate(Diff = abs(Value - lag(Value, default = Value[1]))) 
+deaths.agg <- deaths.agg %>% group_by(Country.Region) %>% mutate(Diff = abs(Value - lag(Value, default = Value[1]))) 
+```
+
+**Section b:**
+```{r}
+top_cases_diff <- head(cases.agg[order(cases.agg$Diff, decreasing = TRUE), ], 10)
+top_deaths_diff <- head(deaths.agg[order(deaths.agg$Diff, decreasing = TRUE), ], 10)
+
+top_cases_diff
+top_deaths_diff
+```
+
+**Section c:**
+```{r}
+italy_cases <- cases.agg[which(cases.agg$Country.Region == 'Italy'), ]
+italy_deaths <- deaths.agg[which(deaths.agg$Country.Region == 'Italy'), ]
+
+plot(italy_cases$Date, italy_cases$Diff, col = "blue",
+     xlab = "Date", ylab = "Count", main = "New daily Corona cases and deaths in Italy")
+points(italy_cases$Date, italy_deaths$Diff, col = "red")
+legend("topleft", legend = c("cases", "Deaths"), col = c("blue", "red"), pch = 1:1)
+```
+
+**Section d:**
+```{r}
+plot(italy_cases$Date, log(italy_cases$Diff), col = "blue",
+     xlab = "Date", ylab = "Count in logarithm scale", main = "New daily Corona cases and deaths in Italy")
+points(italy_cases$Date, log(italy_deaths$Diff), col = "red")
+legend("topleft", legend = c("cases", "Deaths"), col = c("blue", "red"), pch = 1:1)
+```
+
+
+**We can learn that there was an exponential growth rate in the number of cases and deaths, but it stopped being exponential near the end of March.**
 
 <br/><br/>
 
@@ -106,14 +213,41 @@ Next (considering all countries), plot the % of population over 65 vs. log of GD
   
 **Solution:** 
 
+**Section a:**
+
 ```{r}
 #loading the `eco_data`:
 eco_data <- read.csv(url("https://raw.githubusercontent.com/DataScienceHU/DataAnalysisR_2020/master/data/economic_data.csv"))
 
+colnames(eco_data) <- c('country' ,'S_country', 'feature', 'feature_code', 'Y2018V', 'Y2019V')
 ```
 
-YOUR SOLUTION HERE.
-Use code blocks and markdown to clearly communicate your work.
+**Section b:**
+```{r}
+eco_data <- eco_data[1:2640,]
+eco <- dcast(eco_data, country~feature, value.var='Y2018V')
+```
+
+**Section c:**
+```{r}
+colnames(eco)[colnames(eco) == 'country'] <- 'country'
+colnames(eco)[colnames(eco) == 'Population ages 65 and above (% of total population)'] <- 'pop65'
+colnames(eco)[colnames(eco) == 'Population in the largest city (% of urban population)'] <- 'pop_city_ratio'
+colnames(eco)[colnames(eco) == 'Population, total'] <- 'pop_total'
+```
+
+**Section d:**
+```{r}
+eco_GDP <- eco
+eco_GDP[eco_GDP == ".."] <- 0
+colnames(eco_GDP)[colnames(eco_GDP) == 'GDP (current US$)'] <- 'GDP'
+eco_GDP <- mutate(eco_GDP, capita_GDP = as.numeric(GDP)/ as.numeric(pop_total))
+eco_GDP <- eco_GDP[order(eco_GDP$capita_GDP, decreasing = TRUE), ][1:238,]  # order in decreasing odrer the countries by capita_GDP without the lowest 10% (264*0.9=237.6)
+plot(x=log(eco_GDP$capita_GDP), y=eco_GDP$pop65, xlab = 'capita GDP', ylab = 'pop65', col='blue', main="capita_GDP and populathion above 65 in 2018" )
+abline(lm(pop65 ~ log(capita_GDP), data =  eco_GDP))
+```
+
+**We can conclude that there is a positive conection between the age of the population and the capita GDP**
 
 <br/><br/>  
 
@@ -134,8 +268,61 @@ In addition, color the outliers( pop65>24, norm100K_deaths>15) in that plot in r
   
 **Solution:**   
 
-YOUR SOLUTION HERE.
-Use code blocks and markdown to clearly communicate your work.
+**Section a:**
+```{r}
+
+colnames(cases.agg)[colnames(cases.agg) == 'Value'] <- 'cases'
+colnames(recovered.agg)[colnames(recovered.agg) == 'Value'] <- 'recovered'
+colnames(deaths.agg)[colnames(deaths.agg) == 'Value'] <- 'deaths'
+colnames(cases.agg)[colnames(cases.agg) == 'Diff'] <- 'cases_diff'
+colnames(recovered.agg)[colnames(recovered.agg) == 'Diff'] <- 'recovered_diff'
+colnames(deaths.agg)[colnames(deaths.agg) == 'Diff'] <- 'deaths_diff'
+corona <- full_join(full_join(cases.agg, deaths.agg), recovered.agg)
+```
+
+**Section b:**
+```{r}
+names(corona)[1] <- "country"
+corona_eco <-merge(eco,corona)
+```
+
+**Section c:**
+```{r}
+corona_eco <- mutate(corona_eco, 'cases /100,000 pop' = suppressWarnings(as.numeric(cases)/(as.numeric(pop_total)/100000)))
+corona_eco <- mutate(corona_eco, 'deaths /100,000 pop' = suppressWarnings(as.numeric(deaths)/(as.numeric(pop_total)/100000)))
+corona_eco <- mutate(corona_eco, 'recovered /100,000 pop' = suppressWarnings(as.numeric(recovered)/(as.numeric(pop_total)/100000)))
+# corona_eco
+corona_eco_with_sick <- mutate(corona_eco, Sick = `cases /100,000 pop` - `recovered /100,000 pop` - `deaths /100,000 pop`)
+
+end_march_normalized  <- corona_eco_with_sick[which(corona_eco_with_sick$Date == "2020-03-31"), ]
+
+end_march_normalized <- end_march_normalized[order(as.numeric(end_march_normalized$`cases /100,000 pop`), decreasing = TRUE), ]
+
+march_top_10_normalized <- head(end_march_normalized[, !names(end_march_normalized) == "cases /1m _pop"], 10)
+view(march_top_10_normalized)
+barplot(t(cbind(march_top_10_normalized$Sick,
+                march_top_10_normalized$`recovered /100,000 pop`, march_top_10_normalized$`deaths /100,000 pop`)),
+        names.arg = march_top_10_normalized$country, las = 2, col = c("gold", "brown2", "chartreuse3"),
+        legend.text = c("Sick", "Deaths", "Recovered"), main="MARCH TOP 10 normalized by 100,000", las = 2, ylim = c(0,700),
+        cex.names = 0.8, cex.axis = 0.8)
+```
+
+**The main difference is that we normalized the data and the size of the population doesn't affect our analysis. For example, a country with 100,000 sick people that have 10,000,000 peopole (1% of population) can sustain better the amount of sick people then a counrty with 100,000 sick people that have 1,000,000 people (10% of the population). We can conclude that the countries with the most cases are not necessarily the most affected countries by the pandemic.**
+
+**Section d:**
+```{r}
+end_march_normalized_up15 <- end_march_normalized %>% filter(as.numeric(pop65)>= 15)
+#create the plot with the special additions as requested by the question
+plot(end_march_normalized_up15$pop65,end_march_normalized_up15$`cases /100,000 pop`,
+     col =ifelse(end_march_normalized_up15$pop65 > 24,"red","green"), 
+     ylab = "normalized deaths and cases",xlab = "% of population over 65",main = "normalized deaths and cases vs. pop65")
+points(end_march_normalized_up15$pop65,end_march_normalized_up15$`deaths /100,000 pop`, 
+       col = ifelse(end_march_normalized_up15$`deaths /100,000 pop` > 15 | end_march_normalized_up15$pop65 > 24,"red","blue"))
+legend("topright",c("norm cases","norm death","pop65 > 24 or norm death > 15"),cex = .8,col = c("green","blue","red"),pch = c(1,1))
+text(end_march_normalized_up15$pop65, end_march_normalized_up15$`deaths /100,000 pop`,
+     ifelse(end_march_normalized_up15$pop65 >24 | end_march_normalized_up15$`deaths /100,000 pop` > 15,
+            as.character(end_march_normalized_up15$country),""), cex=0.65, pos=3,col="red")
+```
 
 <br/><br/>  
 
@@ -149,7 +336,68 @@ Write an interesting research question regarding the Corona outbreak and then fo
   
 **Solution:**   
 
-YOUR SOLUTION HERE.
-Use code blocks and markdown to clearly communicate your work.
+**Our question is "Has life expectancy contributed to the Corona outbreak?"**
+**We can break it to two questions:**
+**1) Has life expectancy affected to the number of cases of Corona?**
+**2) Has life expectancy affected to the number of death caused by Coronavirus?**
+
+**Therefore, we will use a life expectancy's dataset of the Oxford University in the solution** 
+[reference](https://ourworldindata.org/life-expectancy)  
+
+
+```{r}
+
+life_expect_data <- read.csv(url("https://raw.githubusercontent.com/DataScienceHU/52414-lab-1-malki_noam_and_schkolnik_noa/master/life-expectancy.csv"))
+
+# organizing the Data 
+life_expect_2019 <- life_expect_data[which(life_expect_data$Year == 2019), ]
+areas <- c("Africa", "Americas", "Asia", "Europe", "Latin America and the Caribbean", "Northern America", "Oceania", "World")
+life_expect_2019 <- life_expect_2019[, -which(life_expect_2019$Entity %in% areas)]
+life_expect_2019 <- life_expect_2019 %>% select(country = Entity, Value_in_years = Life.expectancy..years.)
+life_expect_2019$Value_in_years <- round(life_expect_2019$Value_in_years)  
+
+last_date <- max(corona_eco$Date)
+recent_data <- corona_eco[which(corona_eco$Date == last_date), ]
+recent_cases <- recent_data[c("country", "cases /100,000 pop")]
+recent_deaths <- recent_data[c("country", "deaths /100,000 pop")]
+recent_cases <- recent_cases[order(recent_cases$`cases /100,000 pop`, decreasing = TRUE), ]
+recent_deaths <- recent_deaths[order(recent_deaths$`deaths /100,000 pop`, decreasing = TRUE), ]
+cases_with_life_expect <- left_join(recent_cases, life_expect_2019)
+deaths_with_life_expect <- left_join(recent_deaths, life_expect_2019)
+
+# we assume that there is an exponential connection
+cases_with_life_expect <- mutate(cases_with_life_expect, norm_cases_log = log(`cases /100,000 pop`))
+deaths_with_life_expect <- mutate(deaths_with_life_expect, norm_deaths_log = log(`deaths /100,000 pop`))
+deaths_with_life_expect <- deaths_with_life_expect[-which(deaths_with_life_expect$norm_deaths_log == -Inf),] # remove minus infinity
+
+
+par(mfrow=c(1,2))
+
+
+plot(cases_with_life_expect$Value_in_years, cases_with_life_expect$norm_cases_log,
+     ylab = "Cases per 100000 in logarithm scale", xlab = "Life expectancy in years", main = "Cases VS Life expectancy")
+abline(lm(cases_with_life_expect$norm_cases_log ~ cases_with_life_expect$Value_in_years), col = "blue") 
+
+
+plot(deaths_with_life_expect$Value_in_years,deaths_with_life_expect$norm_deaths_log,
+     ylab = "deaths per 100000 in logarithm scale", xlab = "Life expectancy in years", main = "Deaths VS Life expectancy")
+abline(lm(deaths_with_life_expect$norm_deaths_log ~ deaths_with_life_expect$Value_in_years), col = "red")
+```
+
+
+**It seems that there is an exponential connection between the Corona cases and life expectancy. A similar connection can be seen between life expectancy and deaths caused by Coronavirus. But there is a big scattering in the two plots which means the variances is high. We can assume that there is a connection but it's not strong.**
+
+**Let's make a reggersion model analysis in order to verify our assumption.**
+
+```{r}
+regr_deaths <- lm(deaths_with_life_expect$norm_deaths_log ~ deaths_with_life_expect$Value_in_years)
+regr_cases <- lm(log(cases_with_life_expect$norm_cases_log) ~ cases_with_life_expect$Value_in_years)
+summary(regr_cases)
+summary(regr_deaths)
+```
+
+**As we can see, the estimators are very good in both models. But the value of R-squared is low in both models which means that life expectancy doesn't explain well the Corona Cases nor deaths. In that case, we can conclude that there is some connection. But there are more facrors which may affect the Corona Cases and deaths (like: opened borders), that we didn't consider.**
+
+
 
 <br/><br/>  
